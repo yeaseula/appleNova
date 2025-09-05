@@ -12,7 +12,6 @@ export default function Showroom({product}) {
             position: [0,0,0],
             scale:[2,2,2],
             rotation:[0,(-Math.PI / 2) + 0.3, 0],
-            lightPosition:[-7, 10, -7], //조명 위치
             lightpower:7
         },
         airpod: {
@@ -20,7 +19,6 @@ export default function Showroom({product}) {
             position: [0,-0.7,0],
             scale:[35,35,35],
             rotation:[0,(-Math.PI / 2) - 1, 0],
-            lightPosition:[0,4,2],
             lightpower:3
         },
         ipad: {
@@ -28,7 +26,6 @@ export default function Showroom({product}) {
             position: [0,-1.8,0],
             scale:[0.04,0.04,0.04],
             rotation:[0,(-Math.PI / 2), 0],
-            lightPosition:[-7, 10, -7],
             lightpower:8
         },
         airmax: {
@@ -36,7 +33,6 @@ export default function Showroom({product}) {
             position: [0,-1.5,0],
             scale:[2.1,2.1,2.1],
             rotation:[0,(-Math.PI / 2), 0],
-            lightPosition:[0, -10, 0],
             lightpower:1
         },
         macbook: {
@@ -44,7 +40,6 @@ export default function Showroom({product}) {
             position: [0,-0.9,0],
             scale:[8.5,8.5,8.5],
             rotation:[0,(-Math.PI / 2) + 0.3, 0],
-            lightPosition:[-7, 15, -7],
             lightpower:3
         }
     }
@@ -75,16 +70,16 @@ export default function Showroom({product}) {
         const controls = new OrbitControls(camera, renderer.domElement);
         controls.update();
 
-        // Directional light
-        const dirLight = new THREE.DirectionalLight(0xffffff, modalPath.lightpower);
-        dirLight.castShadow = true;
-        dirLight.position.set(modalPath.lightPosition[0],modalPath.lightPosition[1],modalPath.lightPosition[2])
-        camera.add(dirLight);
-        dirLight.shadow.camera.near = 0.1;
+        const ambient = new THREE.AmbientLight(0xffffff, 2.5);
+        scene.add(ambient);
 
-        const dirLightHelper1 = new THREE.DirectionalLightHelper(dirLight, 2, 0xff0000);
-        camera.add(dirLightHelper1);
-        scene.add(camera)
+        const spot = new THREE.SpotLight(0xffffff, modalPath.lightpower);
+        spot.position.set(5, 10, 5); // 위, 사선 등 원하는 위치
+        spot.target.position.set(modalPath.position[0],modalPath.position[1],modalPath.position[2]); // 제품 위치
+        spot.castShadow = true;
+        scene.add(spot);
+        scene.add(spot.target);
+
         // GLB 로드
         const loader = new GLTFLoader();
         const textureLoader = new THREE.TextureLoader();
