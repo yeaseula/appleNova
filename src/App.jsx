@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Showroom from '../pages/Showroom'
 import NavBar from '../components/NavBar'
-import ColorChanger from "../components/ColorChanger";
 
 function App() {
 
