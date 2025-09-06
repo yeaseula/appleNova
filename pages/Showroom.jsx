@@ -1,8 +1,9 @@
 import React from "react";
-import { Suspense, useMemo } from 'react';
+import { Suspense, useMemo, useRef } from 'react';
 import { Canvas, useLoader } from "@react-three/fiber";
-import { OrbitControls, Environment, useGLTF } from "@react-three/drei";
+import { OrbitControls, Environment, useGLTF, useHelper } from "@react-three/drei";
 import * as THREE from "three";
+import { SpotLight, SpotLightHelper } from 'three';
 import { TextureLoader } from "three";
 import { RGBELoader } from "three-stdlib";
 
@@ -70,11 +71,11 @@ function ProductCall({modalPath,position,scale,rotation}) {
             color: 0xffffff,
             metalness: 0,
             roughness: 0,
-            transmission: 1,
-            thickness: 0.3,
+            transmission: 0.85,
+            thickness: 0.6,
             opacity: 0.6,
             clearcoat: 1,
-            clearcoatRoughness: 0.2,
+            clearcoatRoughness: 1,
             ior: 1,
             });
         }
@@ -106,7 +107,7 @@ function ProductCall({modalPath,position,scale,rotation}) {
             });
         }
         o.castShadow = true;
-        o.receiveShadow = false;
+        o.receiveShadow = true;
         });
     }, [gltf]);
 
@@ -120,6 +121,21 @@ function ProductCall({modalPath,position,scale,rotation}) {
     )
 }
 
+function MyScene() {
+    const spotLightRef = useRef();
+    useHelper(spotLightRef, SpotLightHelper, 'cyan'); // The third argument is the helper's color
+
+    return (
+        <spotLight
+            ref={spotLightRef}
+            position={[5, 5, 5]}
+            intensity={1}
+            angle={Math.PI / 4}
+            penumbra={0.1}
+            distance={10}
+        />
+    );
+}
 
 export default function Showroom({product}) {
     const modalPath = modelMap[product] || modelMap['iphone'];
@@ -133,6 +149,7 @@ export default function Showroom({product}) {
             className="w-[100vw] h-[100vh]"
             style={{ background:'#000000' }}>
                 <ambientLight intensity={0.1} color={'0xffffff'}></ambientLight>
+                <MyScene>
                 <spotLight
                 position={[5,17,-10]}
                 intensity={LightPower}
@@ -141,7 +158,7 @@ export default function Showroom({product}) {
                 color={'0xffffff'}
                 castShadow
                 target-position={modalPath.position}
-                ></spotLight>
+                ></spotLight></MyScene>
                 <Suspense fallback={null}>
                     <ProductCall
                     modalPath={modalPath.modalPath}
