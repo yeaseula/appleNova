@@ -13,7 +13,7 @@ const modelMap = {
         position: [0,0,0],
         scale:[1.8,1.8,1.8],
         rotation:[0,(-Math.PI / 2) + 1.35, 0],
-        lightpower:7
+        lightpower:3
     },
     airpod: {
         modalPath: '/src/assets/glb/airpod.glb',
@@ -128,7 +128,7 @@ function MyScene({...props}) {
         <spotLight
             ref={spotLightRef}
             position={[0,0,0]}
-            angle={0.25}
+            angle={0.23}
             penumbra={0.1}
             distance={30}
             anglePower={4}
@@ -172,7 +172,7 @@ export default function Showroom({product}) {
                 position={[0,-2,0]}
                 >
                     <planeGeometry args={[5,5]} />
-                    <meshPhongMaterial color="#e0e0e0" specular="#c27aff" shininess={100} />
+                    <meshPhongMaterial color="#e0e0e0" specular="#c27aff" shininess={50} />
                 </mesh>
                 <OrbitControls></OrbitControls>
             </Canvas>
