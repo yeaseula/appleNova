@@ -13,7 +13,7 @@ const modelMap = {
         position: [0,0,0],
         scale:[1.8,1.8,1.8],
         rotation:[0,(-Math.PI / 2) + 1.35, 0],
-        lightpower:1
+        lightpower:7
     },
     airpod: {
         modalPath: '/src/assets/glb/airpod.glb',
@@ -107,7 +107,7 @@ function ProductCall({modalPath,position,scale,rotation}) {
             });
         }
         o.castShadow = true;
-        o.receiveShadow = true;
+        o.receiveShadow = false;
         });
     }, [gltf]);
 
@@ -121,18 +121,20 @@ function ProductCall({modalPath,position,scale,rotation}) {
     )
 }
 
-function MyScene() {
+function MyScene({...props}) {
     const spotLightRef = useRef();
-    useHelper(spotLightRef, SpotLightHelper, 'cyan'); // The third argument is the helper's color
-
+    //useHelper(spotLightRef, SpotLightHelper, 'cyan'); // The third argument is the helper's color
     return (
         <spotLight
             ref={spotLightRef}
-            position={[5, 5, 5]}
-            intensity={1}
-            angle={Math.PI / 4}
+            position={[0,0,0]}
+            angle={0.25}
             penumbra={0.1}
-            distance={10}
+            distance={30}
+            anglePower={4}
+            attenuation={5}
+            castShadow
+            {...props}
         />
     );
 }
@@ -147,18 +149,10 @@ export default function Showroom({product}) {
             camera={{ position:[5,0,5], fov:45 }}
             key={product}
             className="w-[100vw] h-[100vh]"
-            style={{ background:'#000000' }}>
+            >
+                <color attach="background" args={['#191919']} />
                 <ambientLight intensity={0.1} color={'0xffffff'}></ambientLight>
-                <MyScene>
-                <spotLight
-                position={[5,17,-10]}
-                intensity={LightPower}
-                angle={0.3}
-                penumbra={1}
-                color={'0xffffff'}
-                castShadow
-                target-position={modalPath.position}
-                ></spotLight></MyScene>
+                <MyScene color="#c27aff" position={[0, 4, 0]} intensity={LightPower}></MyScene>
                 <Suspense fallback={null}>
                     <ProductCall
                     modalPath={modalPath.modalPath}
@@ -176,10 +170,9 @@ export default function Showroom({product}) {
                 <mesh
                 rotation={[-Math.PI / 2,0,0]}
                 position={[0,-2,0]}
-                receiveShadow
                 >
-                    <planeGeometry args={[20, 20]} />
-                    <shadowMaterial color={0xfafafa} opacity={0.1} />
+                    <planeGeometry args={[5,5]} />
+                    <meshPhongMaterial color="#e0e0e0" specular="#c27aff" shininess={100} />
                 </mesh>
                 <OrbitControls></OrbitControls>
             </Canvas>
