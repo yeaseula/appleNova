@@ -7,6 +7,13 @@ export default function ColorChanger ({selectedColor,colortext}) {
         const targetText = e.currentTarget.dataset.text;
         selectedColor(targetColor)
         colortext(targetText)
+        const ul = document.querySelectorAll('ul li')
+        ul.forEach((ele,idx)=>{
+            if(ele.classList.contains('border-2','border-purple-300')) {
+                ele.classList.remove('border-2','border-purple-300')
+            }
+        })
+        e.currentTarget.classList.add('border-2','border-purple-300')
     }
 
     return (
