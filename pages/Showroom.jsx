@@ -50,13 +50,13 @@ function ProductCall({modalPath,position,scale,rotation,colors}) {
     const gltf = useGLTF(modalPath);
     const roughMap = useLoader(TextureLoader,'/image/metal3.jpg')
 
+
     useMemo(() => {
         gltf.scene.traverse((o) => {
             if (!o.isMesh) return;
-            //console.log(o.name)
-            console.log(colors)
+            console.log(o.name)
             const n = o.name.toLowerCase();
-
+            console.log(n.includes("camera") && n.includes("cameraframe_"))
             if (n.includes("basecolor")) {
                 o.material = new THREE.MeshPhysicalMaterial({
                     //color: 0xa39c89,
@@ -101,6 +101,51 @@ function ProductCall({modalPath,position,scale,rotation,colors}) {
                 clearcoat: 0,
                 roughnessMap: roughMap,
                 });
+            }
+            else if ((n.includes("apple") && n.includes("logo"))) {
+                o.material = new THREE.MeshPhysicalMaterial({
+                color: colors,
+                metalness: 0.4,
+                roughness: 0.2,
+                clearcoat: 0,
+                roughnessMap: roughMap,
+                });
+            }
+            if ((n.includes("body")&& n.includes("pro")) || n.includes('connector')) {
+                o.material = new THREE.MeshPhysicalMaterial({
+                    //color: 0xa39c89,
+                    color:colors,
+                    metalness: 0,
+                    roughness: 0.2,
+                    clearcoat: 0.1,
+                    clearcoatRoughness: 0.2,
+                    transmission: 0,
+                    thickness: 0.2,
+                    ior: 1.5,
+                });
+            } else if ((n.includes("apple") && n.includes("logo") && n.includes("cameraframe"))) {
+                o.material = new THREE.MeshPhysicalMaterial({
+                    color:colors,
+                    metalness: 0.4,
+                    roughness: 0.2,
+                    clearcoat: 0,
+                    roughnessMap: roughMap,
+                });
+            } else if ((n.includes("camera") && n.includes("module")) || n.includes("line")) {
+                o.material = new THREE.MeshPhysicalMaterial({
+                    color:colors,
+                    metalness: 1,
+                    roughness:0,
+                    clearcoat:1,
+                    clearcoatRoughness: 0.2,
+                });
+            } else if (n.includes("camera") && n.includes("cameraframe_")) {
+                o.material = new THREE.MeshPhysicalMaterial({
+                    color:'0x000000',
+                    metalness: 0.9,
+                    roughness: 0,
+                    roughnessMap: roughMap,
+                })
             }
             if (n.includes("plastic")) {
                 o.material = new THREE.MeshPhysicalMaterial({

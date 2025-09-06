@@ -10,9 +10,9 @@ export default function ColorChanger ({selectedColor,colortext,product}) {
                 default:false
             },
             {
-                datacolor:'#a39c89',
+                datacolor:'#959086',
                 datatext:'내추럴 티타늄 색상의 iPhone',
-                realcolor:'#959086',
+                realcolor:'#a39c89',
                 default:true
             },
             {
@@ -28,6 +28,20 @@ export default function ColorChanger ({selectedColor,colortext,product}) {
                 default:false
             },
         ],
+        ipad: [
+            {
+                datacolor:'#C0C0C0',
+                datatext:'실버 색상의 iPad',
+                realcolor:'#C0C0C0',
+                default:true
+            },
+            {
+                datacolor:'#717378',
+                datatext:'스페이스 그레이 색상의 iPhone',
+                realcolor:'#717378',
+                default:false
+            },
+        ]
     }
 
     const targetProduct = ColorChart[product]
@@ -51,7 +65,7 @@ export default function ColorChanger ({selectedColor,colortext,product}) {
         <div className="fixed bottom-15 left-[50%] translate-x-[-50%] z-999">
             <ul className="flex justify-center gap-3 rounded-full bg-gray-400 pr-4 pl-4 pt-1.5 pb-1.5">
                 {targetProduct.map((ele)=>(
-                    <li data-color={ele.datacolor} data-text={ele.datatext} onClick={handleColor} className={`w-8 h-8 bg-[${ele.realcolor}] rounded-full shadow-2xl shadow-gray-300/30 ${ele.default ? 'border-2 border-purple-300' : ""}`}></li>
+                    <li data-color={ele.datacolor} data-text={ele.datatext} key={ele.datacolor} onClick={handleColor} className={`w-8 h-8 bg-[${ele.realcolor}] rounded-full shadow-2xl shadow-gray-300/30 ${ele.default ? 'border-2 border-purple-300' : ""}`}></li>
                 ))}
             </ul>
         </div>
