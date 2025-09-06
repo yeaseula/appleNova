@@ -60,7 +60,7 @@ function ProductCall({modalPath,position,scale,rotation,colors}) {
             if (n.includes("basecolor")) {
                 o.material = new THREE.MeshPhysicalMaterial({
                     //color: 0xa39c89,
-                    color:new THREE.Color(colors),
+                    color:colors,
                     metalness: 0,
                     roughness: 0.2,
                     clearcoat: 0.1,
@@ -85,7 +85,7 @@ function ProductCall({modalPath,position,scale,rotation,colors}) {
             }
             else if (n.includes("frame") || n.includes("edge") || n.includes("metal")) {
                 o.material = new THREE.MeshStandardMaterial({
-                color: 0x948f85,
+                color: colors,
                 metalness: 0.9,
                 roughness: 0.2,
                 clearcoat: 0,
@@ -133,7 +133,7 @@ function MyScene({...props}) {
             ref={spotLightRef}
             position={[0,0,0]}
             angle={0.23}
-            penumbra={0.1}
+            penumbra={0.8}
             distance={30}
             anglePower={4}
             attenuation={5}
@@ -182,7 +182,7 @@ export default function Showroom({product}) {
                 </mesh>
                 <OrbitControls></OrbitControls>
             </Canvas>
-            <ColorChanger selectedColor={setColors} colortext={setText}/>
+            <ColorChanger selectedColor={setColors} colortext={setText} product={product}/>
             <p className="text-center text-white text-sm fixed bottom-5.5 left-[50%] z-99 translate-x-[-50%]">{text}</p>
         </div>
     )
